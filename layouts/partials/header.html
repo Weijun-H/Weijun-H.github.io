@@ -42,6 +42,6 @@
 	{{- if isset .Site.Params "customjs" -}}
 		{{- range .Site.Params.customJS }}<script src="{{ $.Site.BaseURL }}{{ . }}"></script>{{- end }}
 	{{- end }}
-  {{ template "_internal/google_analytics.html" . }}
-  {{ template "_internal/google_analytics_async.html" . }}
+  {{- template "_internal/google_analytics.html" . -}}
+  {{- template "_internal/google_analytics_async.html" . -}}
 </head>
