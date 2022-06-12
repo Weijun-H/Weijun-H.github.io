@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Open Source on Weijun&#39;s Blog</title>
+    <link>https://weijun-h.github.io/tags/open-source/</link>
+    <description>Recent content in Open Source on Weijun&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© Copyright notice</copyright>
+    <lastBuildDate>Sat, 11 Jun 2022 19:53:44 +0200</lastBuildDate><atom:link href="https://weijun-h.github.io/tags/open-source/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GSoC Week 1 - Explore the Mechanism in MariaDB</title>
+      <link>https://weijun-h.github.io/posts/gsoc_01/</link>
+      <pubDate>Sat, 11 Jun 2022 19:53:44 +0200</pubDate>
+      
+      <guid>https://weijun-h.github.io/posts/gsoc_01/</guid>
+      <description>Overview My task is to implement regression functions in MariaDB, which was mentioned in MDEV-17467. This feature has been implemented by many MariaDB competitors, like PostgreSQL, Oracle, and so on.
+Tasks The functions I need to implement are following:
+ REGR_SLOPE: Returns the slope, equal to REGR_SXY / REGR_SYY REGR_INTERCEPT: Returns the y-intercept of the regression line, which is equal to REGR_AVGX - REGR_SLOPE * REGR_AVGY REGR_COUNT: Returns the number of non-empty pairs of numbers used to fill the regression line REGR_R2: The return value is equal to (REGR_SXY * REGR_SXY) / (REGR_SYY * REGR_SXX) REGR_AVGX: calculate the mean of the independent variable (expr2) of the regression line, after removing the null pair (expr1, expr2), is equal to AVG(expr2) REGR_AVGY: Calculate the mean of the strain variable (expr1) of the regression line, after removing the null pair (expr1, expr2), which is equal to AVG(expr1) REGR_SXX: The return value is equal to REGR_COUNT * VAR_POP(expr2) REGR_SYY: The return value is equal to REGR_COUNT * VAR_POP(expr1) REGR_SXY: The return value is equal to REGR_COUNT * COVAR_POP(expr1, expr2)  Mechanism How to define a function in MariaDB For native functions, it is easy to define.</description>
+    </item>
+    
+  </channel>
+</rss>
