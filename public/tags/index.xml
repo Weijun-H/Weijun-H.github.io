@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Weijun&#39;s Blog</title>
-    <link>https://Weijun-H.github.io/tags/</link>
+    <link>https://weijun-h.github.io/tags/</link>
     <description>Recent content in Tags on Weijun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© Copyright notice</copyright>
-    <lastBuildDate>Sat, 11 Jun 2022 19:53:44 +0200</lastBuildDate><atom:link href="https://Weijun-H.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 11 Jun 2022 19:53:44 +0200</lastBuildDate><atom:link href="https://weijun-h.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GSoC</title>
-      <link>https://Weijun-H.github.io/tags/gsoc/</link>
+      <link>https://weijun-h.github.io/tags/gsoc/</link>
       <pubDate>Sat, 11 Jun 2022 19:53:44 +0200</pubDate>
       
-      <guid>https://Weijun-H.github.io/tags/gsoc/</guid>
+      <guid>https://weijun-h.github.io/tags/gsoc/</guid>
       <description></description>
     </item>
     
     <item>
       <title>MariaDB</title>
-      <link>https://Weijun-H.github.io/tags/mariadb/</link>
+      <link>https://weijun-h.github.io/tags/mariadb/</link>
       <pubDate>Sat, 11 Jun 2022 19:53:44 +0200</pubDate>
       
-      <guid>https://Weijun-H.github.io/tags/mariadb/</guid>
+      <guid>https://weijun-h.github.io/tags/mariadb/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Open Source</title>
-      <link>https://Weijun-H.github.io/tags/open-source/</link>
+      <link>https://weijun-h.github.io/tags/open-source/</link>
       <pubDate>Sat, 11 Jun 2022 19:53:44 +0200</pubDate>
       
-      <guid>https://Weijun-H.github.io/tags/open-source/</guid>
+      <guid>https://weijun-h.github.io/tags/open-source/</guid>
       <description></description>
     </item>
     
