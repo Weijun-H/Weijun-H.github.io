@@ -13,7 +13,7 @@ pygmentsstyle = "vs"
 pygmentscodefences = true
 pygmentscodefencesguesssyntax = true
 
-googleAnalytics = "UA-231737717-1"
+googleAnalytics = "G-XZ97CNSH5S"
 disqusShortname = "weijun-h-github-io"
 
 [params]
