@@ -16,7 +16,11 @@ In this week
 - How window function works in queries
 - Add more tests with edge cases
 
+{{<mermaid>}}
+graph TD;
+  A-->B;
+  A-->C;
+  B-->D;
+  C-->D;
+{{</mermaid>}}
 
-{{< plantuml id="eg" >}}
-Alice -> Bob: test
-{{< /plantuml >}}

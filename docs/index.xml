@@ -15,7 +15,7 @@
       
       <guid>https://weijun-h.github.io/posts/gsoc_02/</guid>
       <description>Overview In this week
-Design What should I do next step?  How window function works in queries Add more tests with edge cases    function encode64(data) { r = &#34;&#34;; for (i=0; i 2; c2 = ((b1 &amp; 0x3)  4); c3 = ((b2 &amp; 0xF)  6); c4 = b3 &amp; 0x3F; r = &#34;&#34;; r += encode6bit(c1 &amp; 0x3F); r += encode6bit(c2 &amp; 0x3F); r += encode6bit(c3 &amp; 0x3F); r += encode6bit(c4 &amp; 0x3F); return r; } function encode6bit(b) { if (b </description>
+Design What should I do next step?  How window function works in queries Add more tests with edge cases  graph TD; A--B; A--C; B--D; C--D;  </description>
     </item>
     
     <item>
