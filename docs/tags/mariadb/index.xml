@@ -14,8 +14,8 @@
       <pubDate>Thu, 16 Jun 2022 18:18:51 +0200</pubDate>
       
       <guid>https://weijun-h.github.io/posts/gsoc_02/</guid>
-      <description>Overview In this week
-Design What should I do next step?  How window function works in queries Add more tests with edge cases  graph TD; A--B; A--C; B--D; C--D;  </description>
+      <description>Overview In this week, I finished the design of regression function, and implemented most part of them. Basically, the implementation of window can be completed at the same, but the tests still need to be verified.
+Design The core part of these functions is how to accumulate the value instead of calculating at the end of process. I adopted the Welford&amp;rsquo;s online algorithm and implement it in Regr_transition class. Then all of Item_sum_regr_XXX will use it to get the value by invoking individual bool val_real().</description>
     </item>
     
     <item>

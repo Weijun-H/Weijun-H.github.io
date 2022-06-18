@@ -4,13 +4,13 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>GSoC Week 2 - Construct Regression functions in queries with GROUP BY - Weijun&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta itemprop="name" content="GSoC Week 2 - Construct Regression functions in queries with GROUP BY">
-<meta itemprop="description" content="Overview In this week
-Design What should I do next step?  How window function works in queries Add more tests with edge cases  graph TD; A--B; A--C; B--D; C--D;  "><meta itemprop="datePublished" content="2022-06-16T18:18:51+02:00" />
+<meta itemprop="description" content="Overview In this week, I finished the design of regression function, and implemented most part of them. Basically, the implementation of window can be completed at the same, but the tests still need to be verified.
+Design The core part of these functions is how to accumulate the value instead of calculating at the end of process. I adopted the Welford&rsquo;s online algorithm and implement it in Regr_transition class. Then all of Item_sum_regr_XXX will use it to get the value by invoking individual bool val_real()."><meta itemprop="datePublished" content="2022-06-16T18:18:51+02:00" />
 <meta itemprop="dateModified" content="2022-06-16T18:18:51+02:00" />
-<meta itemprop="wordCount" content="29">
+<meta itemprop="wordCount" content="135">
 <meta itemprop="keywords" content="GSoC,MariaDB,Open Source," /><meta property="og:title" content="GSoC Week 2 - Construct Regression functions in queries with GROUP BY" />
-<meta property="og:description" content="Overview In this week
-Design What should I do next step?  How window function works in queries Add more tests with edge cases  graph TD; A--B; A--C; B--D; C--D;  " />
+<meta property="og:description" content="Overview In this week, I finished the design of regression function, and implemented most part of them. Basically, the implementation of window can be completed at the same, but the tests still need to be verified.
+Design The core part of these functions is how to accumulate the value instead of calculating at the end of process. I adopted the Welford&rsquo;s online algorithm and implement it in Regr_transition class. Then all of Item_sum_regr_XXX will use it to get the value by invoking individual bool val_real()." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://weijun-h.github.io/posts/gsoc_02/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-06-16T18:18:51+02:00" />
@@ -18,8 +18,8 @@ Design What should I do next step?  How window function works in queries Add mor
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="GSoC Week 2 - Construct Regression functions in queries with GROUP BY"/>
-<meta name="twitter:description" content="Overview In this week
-Design What should I do next step?  How window function works in queries Add more tests with edge cases  graph TD; A--B; A--C; B--D; C--D;  "/>
+<meta name="twitter:description" content="Overview In this week, I finished the design of regression function, and implemented most part of them. Basically, the implementation of window can be completed at the same, but the tests still need to be verified.
+Design The core part of these functions is how to accumulate the value instead of calculating at the end of process. I adopted the Welford&rsquo;s online algorithm and implement it in Regr_transition class. Then all of Item_sum_regr_XXX will use it to get the value by invoking individual bool val_real()."/>
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" media="screen" href="https://weijun-h.github.io/css/normalize.css" />
 	<link rel="stylesheet" type="text/css" media="screen" href="https://weijun-h.github.io/css/main.css" />
@@ -108,22 +108,63 @@ if (!doNotTrack) {
 					
 			<div class="markdown">
 				<h1 id="overview">Overview</h1>
-<p>In this week</p>
+<p>In this week, I finished the design of regression function, and implemented most part of them. Basically, the implementation of window can be completed at the same, but the tests still need to be verified.</p>
 <h1 id="design">Design</h1>
+<p>The core part of these functions is how to accumulate the value instead of calculating at the end of process. I adopted the <a href="https://www.wikiwand.com/en/Algorithms_for_calculating_variance#/Online">Welford&rsquo;s online algorithm</a> and implement it in <code>Regr_transition</code> class. Then all of <code>Item_sum_regr_XXX</code> will use it to get the value by invoking individual <code>bool val_real()</code>. The following UML figure shows the architecture.
+<script async type="application/javascript" src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js">
+  var config = {
+    startOnLoad:true,
+    theme:'dark',
+    align:'center'
+  };
+  mermaid.initialize(config);
+</script>
+
+<div class="mermaid">
+  
+classDiagram
+  Item_sum_double <|-- Item_sum_regr_sxx
+  Regr_transition <--o Item_sum_regr_sxx
+  Item_sum_regr_sxx <|-- Item_sum_regr_sxy
+  Item_sum_regr_sxx <|-- Item_sum_regr_syy
+  Item_sum_regr_sxx <|-- Item_sum_regr_avgx
+  Item_sum_regr_sxx <|-- Item_sum_regr_avgy
+  Item_sum_regr_sxx <|-- Item_sum_regr_slope
+  Item_sum_regr_sxx <|-- Item_sum_regr_r2
+  Item_sum_regr_sxx <|-- Item_sum_regr_intercept
+
+  Item_sum_regr_sxx: Regr_transition transivalues
+  Item_sum_regr_sxx: bool add()
+  Item_sum_regr_sxx: void reset_field()
+  Item_sum_regr_sxx: void update_field()
+  Regr_transition: double m_x
+  Regr_transition: double m_y
+  Regr_transition: double sx
+  Regr_transition: double sy
+  Regr_transition: double sxx
+  Regr_transition: double syy
+  Regr_transition: double sxy
+  Regr_transition: ulonglong N
+
+  Regr_transition: void recurrence_next(double nr_y, double nr_x)
+
+  Item_sum_regr_sxy: double val_real()
+  Item_sum_regr_syy: double val_real()
+  Item_sum_regr_avgx: double val_real()
+  Item_sum_regr_avgy: double val_real()
+  Item_sum_regr_slope: double val_real()
+  Item_sum_regr_r2: double val_real()
+  Item_sum_regr_intercept: double val_real()
+
+</div></p>
+<h1 id="implementation">Implementation</h1>
+<p>You could see my code <a href="https://github.com/MariaDB/server/pull/2148">here</a></p>
 <h1 id="what-should-i-do-next-step">What should I do next step?</h1>
 <ul>
 <li>How window function works in queries</li>
+<li>How aggregation works in the columnar engine</li>
 <li>Add more tests with edge cases</li>
 </ul>
-<div class="mermaid">
-  
-graph TD;
-  A-->B;
-  A-->C;
-  B-->D;
-  C-->D;
-
-</div>
 
 			</div>
 
