@@ -32,6 +32,8 @@ disqusShortname = "weijun-h-github-io"
 	# customDarkCSS = "css/custom-dark.css"  # Custom styles applied to dark mode css.
 	# customJS = ["js/custom.js", "js/custom1.js"]  # Custom JS scripts.
 
+  plantuml = true
+
 # Nav.
 [[menu.main]]
 name = "Home"
