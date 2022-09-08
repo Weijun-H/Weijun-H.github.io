@@ -2,15 +2,17 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>GSoC Week 1 - Explore the Mechanism in MariaDB - Weijun&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta itemprop="name" content="GSoC Week 1 - Explore the Mechanism in MariaDB">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"><title>GSoC Part 1 - Explore the Mechanism in MariaDB - Weijun&#39;s Blog</title><meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta itemprop="name" content="GSoC Part 1 - Explore the Mechanism in MariaDB">
 <meta itemprop="description" content="Overview My task is to implement regression functions in MariaDB, which was mentioned in MDEV-17467. This feature has been implemented by many MariaDB competitors, like PostgreSQL, Oracle, and so on.
+You can see my pr here
 Tasks The functions I need to implement are following:
  REGR_SLOPE: Returns the slope, equal to REGR_SXY / REGR_SYY REGR_INTERCEPT: Returns the y-intercept of the regression line, which is equal to REGR_AVGX - REGR_SLOPE * REGR_AVGY REGR_COUNT: Returns the number of non-empty pairs of numbers used to fill the regression line REGR_R2: The return value is equal to (REGR_SXY * REGR_SXY) / (REGR_SYY * REGR_SXX) REGR_AVGX: calculate the mean of the independent variable (expr2) of the regression line, after removing the null pair (expr1, expr2), is equal to AVG(expr2) REGR_AVGY: Calculate the mean of the strain variable (expr1) of the regression line, after removing the null pair (expr1, expr2), which is equal to AVG(expr1) REGR_SXX: The return value is equal to REGR_COUNT * VAR_POP(expr2) REGR_SYY: The return value is equal to REGR_COUNT * VAR_POP(expr1) REGR_SXY: The return value is equal to REGR_COUNT * COVAR_POP(expr1, expr2)  Mechanism How to define a function in MariaDB For native functions, it is easy to define."><meta itemprop="datePublished" content="2022-06-11T19:53:44+02:00" />
 <meta itemprop="dateModified" content="2022-06-11T19:53:44+02:00" />
-<meta itemprop="wordCount" content="541">
-<meta itemprop="keywords" content="GSoC,MariaDB,Open Source," /><meta property="og:title" content="GSoC Week 1 - Explore the Mechanism in MariaDB" />
+<meta itemprop="wordCount" content="650">
+<meta itemprop="keywords" content="GSoC,MariaDB,Open Source," /><meta property="og:title" content="GSoC Part 1 - Explore the Mechanism in MariaDB" />
 <meta property="og:description" content="Overview My task is to implement regression functions in MariaDB, which was mentioned in MDEV-17467. This feature has been implemented by many MariaDB competitors, like PostgreSQL, Oracle, and so on.
+You can see my pr here
 Tasks The functions I need to implement are following:
  REGR_SLOPE: Returns the slope, equal to REGR_SXY / REGR_SYY REGR_INTERCEPT: Returns the y-intercept of the regression line, which is equal to REGR_AVGX - REGR_SLOPE * REGR_AVGY REGR_COUNT: Returns the number of non-empty pairs of numbers used to fill the regression line REGR_R2: The return value is equal to (REGR_SXY * REGR_SXY) / (REGR_SYY * REGR_SXX) REGR_AVGX: calculate the mean of the independent variable (expr2) of the regression line, after removing the null pair (expr1, expr2), is equal to AVG(expr2) REGR_AVGY: Calculate the mean of the strain variable (expr1) of the regression line, after removing the null pair (expr1, expr2), which is equal to AVG(expr1) REGR_SXX: The return value is equal to REGR_COUNT * VAR_POP(expr2) REGR_SYY: The return value is equal to REGR_COUNT * VAR_POP(expr1) REGR_SXY: The return value is equal to REGR_COUNT * COVAR_POP(expr1, expr2)  Mechanism How to define a function in MariaDB For native functions, it is easy to define." />
 <meta property="og:type" content="article" />
@@ -19,8 +21,9 @@ Tasks The functions I need to implement are following:
 <meta property="article:modified_time" content="2022-06-11T19:53:44+02:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="GSoC Week 1 - Explore the Mechanism in MariaDB"/>
+<meta name="twitter:title" content="GSoC Part 1 - Explore the Mechanism in MariaDB"/>
 <meta name="twitter:description" content="Overview My task is to implement regression functions in MariaDB, which was mentioned in MDEV-17467. This feature has been implemented by many MariaDB competitors, like PostgreSQL, Oracle, and so on.
+You can see my pr here
 Tasks The functions I need to implement are following:
  REGR_SLOPE: Returns the slope, equal to REGR_SXY / REGR_SYY REGR_INTERCEPT: Returns the y-intercept of the regression line, which is equal to REGR_AVGX - REGR_SLOPE * REGR_AVGY REGR_COUNT: Returns the number of non-empty pairs of numbers used to fill the regression line REGR_R2: The return value is equal to (REGR_SXY * REGR_SXY) / (REGR_SYY * REGR_SXX) REGR_AVGX: calculate the mean of the independent variable (expr2) of the regression line, after removing the null pair (expr1, expr2), is equal to AVG(expr2) REGR_AVGY: Calculate the mean of the strain variable (expr1) of the regression line, after removing the null pair (expr1, expr2), which is equal to AVG(expr1) REGR_SXX: The return value is equal to REGR_COUNT * VAR_POP(expr2) REGR_SYY: The return value is equal to REGR_COUNT * VAR_POP(expr1) REGR_SXY: The return value is equal to REGR_COUNT * COVAR_POP(expr1, expr2)  Mechanism How to define a function in MariaDB For native functions, it is easy to define."/>
 <link href='https://fonts.googleapis.com/css?family=Playfair+Display:700' rel='stylesheet' type='text/css'>
@@ -105,13 +108,14 @@ if (!doNotTrack) {
 					</div>
 				
 				<div class="matter">
-					<h1 class="title">GSoC Week 1 - Explore the Mechanism in MariaDB</h1>
+					<h1 class="title">GSoC Part 1 - Explore the Mechanism in MariaDB</h1>
 				</div>
 			</div>
 					
 			<div class="markdown">
 				<h2 id="overview">Overview</h2>
 <p>My task is to implement regression functions in MariaDB, which was mentioned in <a href="https://jira.mariadb.org/browse/MDEV-17467">MDEV-17467</a>. This feature has been implemented by many MariaDB competitors, like PostgreSQL, Oracle, and so on.</p>
+<p>You can see my pr <a href="https://github.com/MariaDB/server/pull/2148">here</a></p>
 <h2 id="tasks">Tasks</h2>
 <p>The functions I need to implement are following:</p>
 <ul>
@@ -153,35 +157,62 @@ The processes of querys without and with <code>GROUP BY</code> are different.</l
 </ul>
 <p>If you use the query without <code>GROUP BY</code>, like <code>SELECT SUM(value) FROM T1</code>, the parser will find <code>SUM</code> and invoke <code>Item_sum_sum(thd, $3)</code> constructor. Then the parser goes through each row, and update the result by functions above. But if using <code>GROUP BY</code> in the query, the class will call constructor <code>  Item_sum_sum(THD *thd, Item_sum_sum *item):</code>. The result will be provided by <code>Item_sum_field</code> class.</p>
 <h3 id="how-is-the-value-stored">How is the value stored?</h3>
-<p>It is still a ambiguous point, I will continue pondering this question.</p>
-<h3 id="how-could-we-iterate-the-value-instead-of-calculating-at-the-end-of-the-process">How could we iterate the value instead of calculating at the end of the process?</h3>
-<p>The difficult point is to calculate <code>sxy</code>, <code>syy</code> and <code>sxx</code>. Because they are equivalent to variance and covariance, I adopted <a href="https://www.wikiwand.com/en/Algorithms_for_calculating_variance#/Online">Welford&rsquo;s online algorithm</a> to calculate them.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#2b91af">void</span> Regr_transition::recurrence_next(<span style="color:#2b91af">double</span> nr_y, <span style="color:#2b91af">double</span> nr_x)
+<p>I used the class <code>Regression_result</code> to store all the results related to regression functions. The main components are below</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#00f">class</span> <span style="color:#2b91af">Regression_result</span>
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>  <span style="color:#00f">if</span> (!N++)
+</span></span><span style="display:flex;"><span>  <span style="color:#008000">// store results
+</span></span></span><span style="display:flex;"><span><span style="color:#008000"></span>  Stddev sxx, syy;
+</span></span><span style="display:flex;"><span>  <span style="color:#2b91af">double</span> sxy;
+</span></span><span style="display:flex;"><span>  <span style="color:#2b91af">double</span> sx, sy;
+</span></span><span style="display:flex;"><span>  ulonglong N;
+</span></span><span style="display:flex;"><span><span style="color:#00f">public</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#008000">// iterate over the results
+</span></span></span><span style="display:flex;"><span><span style="color:#008000"></span>  <span style="color:#2b91af">void</span> recurrence_next(<span style="color:#2b91af">double</span> nr_y, <span style="color:#2b91af">double</span> nr_x);
+</span></span><span style="display:flex;"><span>  <span style="color:#008000">// for window function
+</span></span></span><span style="display:flex;"><span><span style="color:#008000"></span>  <span style="color:#2b91af">void</span> remove(<span style="color:#2b91af">double</span> nr_y, <span style="color:#2b91af">double</span> nr_x);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="how-could-we-iterate-the-value-instead-of-calculating-at-the-end-of-the-process">How could we iterate the value instead of calculating at the end of the process?</h3>
+<p>The difficult point is to calculate <code>sxy</code>, <code>syy</code> and <code>sxx</code>. Because they are equivalent to variance and covariance, I adopted <a href="https://www.wikiwand.com/en/Algorithms_for_calculating_variance#/Online">Welford&rsquo;s online algorithm</a> to calculate them. I defined <code>recurrence_next</code> to implement it.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#2b91af">void</span> Regression_result::recurrence_next(<span style="color:#2b91af">double</span> nr_y, <span style="color:#2b91af">double</span> nr_x)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#00f">if</span> (N++)
 </span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>    m_x = nr_x;
-</span></span><span style="display:flex;"><span>    m_y = nr_y;
-</span></span><span style="display:flex;"><span>    sx = nr_x;
-</span></span><span style="display:flex;"><span>    sy = nr_y;
+</span></span><span style="display:flex;"><span>    sx+= nr_x;
+</span></span><span style="display:flex;"><span>    sy+= nr_y;
+</span></span><span style="display:flex;"><span>    <span style="color:#2b91af">double</span> diff = nr_x - sxx.get_m();
+</span></span><span style="display:flex;"><span>    sxx.recurrence_next(nr_x);
+</span></span><span style="display:flex;"><span>    syy.recurrence_next(nr_y);
+</span></span><span style="display:flex;"><span>    sxy= sxy + diff * (nr_y - syy.get_m());
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>  <span style="color:#00f">else</span>
 </span></span><span style="display:flex;"><span>  {
-</span></span><span style="display:flex;"><span>    sx += nr_x;
-</span></span><span style="display:flex;"><span>    sy += nr_y;
-</span></span><span style="display:flex;"><span>    <span style="color:#00f">volatile</span> <span style="color:#2b91af">double</span> diff_x= nr_x - m_x;
-</span></span><span style="display:flex;"><span>    <span style="color:#00f">volatile</span> <span style="color:#2b91af">double</span> diff_y= nr_y - m_y;
-</span></span><span style="display:flex;"><span>    m_x= m_x + diff_x / (<span style="color:#2b91af">double</span>) N;
-</span></span><span style="display:flex;"><span>    m_y= m_y + diff_y / (<span style="color:#2b91af">double</span>) N;
-</span></span><span style="display:flex;"><span>    sxx= sxx + diff_x * (nr_x - m_x);
-</span></span><span style="display:flex;"><span>    syy= syy + diff_y * (nr_y - m_y);
-</span></span><span style="display:flex;"><span>    sxy= sxy + diff_x * (nr_y - m_y);
+</span></span><span style="display:flex;"><span>    sx= nr_x;
+</span></span><span style="display:flex;"><span>    sy= nr_y;
+</span></span><span style="display:flex;"><span>    sxx.recurrence_next(nr_x);
+</span></span><span style="display:flex;"><span>    syy.recurrence_next(nr_y);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>In this way, the result can be calculated iteratively.</p>
+<p>On the other hand, if we only want to efficiently calculate the result in window function , like</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-SQL" data-lang="SQL"><span style="display:flex;"><span>REGR_AVGX(age, weight) OVER(<span style="color:#00f">ORDER</span> <span style="color:#00f">BY</span> id <span style="color:#00f">rows</span> <span style="color:#00f">between</span> 2 preceding <span style="color:#00f">and</span> 2 following) <span style="color:#00f">as</span> avgx
+</span></span></code></pre></div><p>the result need to remove the first one in order to calculate the next. The implementation is similar to the recurrence_next</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span><span style="color:#2b91af">void</span> Regression_result::remove(<span style="color:#2b91af">double</span> nr_y, <span style="color:#2b91af">double</span> nr_x)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#00f">if</span> (N &gt; 0)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    sx-= nr_x;
+</span></span><span style="display:flex;"><span>    sy-= nr_y;
+</span></span><span style="display:flex;"><span>    sxx.remove(nr_x);
+</span></span><span style="display:flex;"><span>    <span style="color:#2b91af">double</span> diff = nr_x - sxx.get_m();
+</span></span><span style="display:flex;"><span>    sxy= sxy - diff * (nr_y - syy.get_m());
+</span></span><span style="display:flex;"><span>    syy.remove(nr_y);
+</span></span><span style="display:flex;"><span>    N--;
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="what-should-i-do-next-step">What should I do next step?</h2>
 <ul>
 <li>Figure out memory management in aggregate functions</li>
-<li>Complete all functions without <code>GROUP BY</code> and test them</li>
+<li>Complete all functions with and without <code>GROUP BY</code>.</li>
 </ul>
 
 			</div>
