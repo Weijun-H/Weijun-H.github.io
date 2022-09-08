@@ -1,14 +1,15 @@
 ---
-title: "GSoC Week 2 - Construct Regression functions in queries with GROUP BY"
+title: "GSoC Part 2 - Construct Regression functions in queries with GROUP BY"
 date: 2022-06-16T18:18:51+02:00
 tags : ['GSoC', 'MariaDB', 'Open Source']
 ---
 
 # Overview
-In this week, I finished the design of regression function, and implemented most part of them. Basically, the implementation of window can be completed at the same, but the tests still need to be verified.
+In this part, I finished the design of regression function, and implemented most part of them. Basically, the implementation of window can be completed at the same, but the tests still need to be verified.
 
+You can see my pr [here](https://github.com/MariaDB/server/pull/2148)
 # Design
-The core part of these functions is how to accumulate the value instead of calculating at the end of process. I adopted the [Welford's online algorithm](https://www.wikiwand.com/en/Algorithms_for_calculating_variance#/Online) and implement it in `Regr_transition` class. Then all of `Item_sum_regr_XXX` will use it to get the value by invoking individual `bool val_real()`. The following UML figure shows the architecture.
+The core part of these functions is how to accumulate the value instead of calculating at the end of process. I adopted the [Welford's online algorithm](https://www.wikiwand.com/en/Algorithms_for_calculating_variance#/Online) and implement it in `Regr_result` class. Then all of `Item_sum_regr_XXX` will use it to get the value by invoking individual `bool val_real()`. The following UML figure shows the architecture.
 {{< mermaid >}}
 classDiagram
   Item_sum_double <|-- Item_sum_regr_sxx
@@ -46,9 +47,12 @@ classDiagram
 {{< /mermaid >}}
 # Implementation
 You could see my code [here](https://github.com/MariaDB/server/pull/2148)
-# What should I do next step?
+
+It is worth noting that the aggregation function with `GROUP BY` used the `Item_regr_XXX_field` to store the value. While the aggregation without `GROUP BY` used the `Aggregator` class to iterate each row.
+
+<!-- # What should I do next step?
 - How window function works in queries
 - How aggregation works in the columnar engine
-- Add more tests with edge cases
+- Add more tests with edge cases -->
 
 

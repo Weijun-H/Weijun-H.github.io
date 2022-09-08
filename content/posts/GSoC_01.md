@@ -1,5 +1,5 @@
 +++
-title = "GSoC Week 1 - Explore the Mechanism in MariaDB"
+title = "GSoC Part 1 - Explore the Mechanism in MariaDB"
 date = "2022-06-11T19:53:44+02:00"
 
 #
@@ -12,6 +12,7 @@ tags = ['GSoC', 'MariaDB', 'Open Source']
 ## Overview
 My task is to implement regression functions in MariaDB, which was mentioned in [MDEV-17467](https://jira.mariadb.org/browse/MDEV-17467). This feature has been implemented by many MariaDB competitors, like PostgreSQL, Oracle, and so on.
 
+You can see my pr [here](https://github.com/MariaDB/server/pull/2148)
 
 ## Tasks
 The functions I need to implement are following:
@@ -53,38 +54,70 @@ The processes of querys without and with `GROUP BY` are different.
 If you use the query without `GROUP BY`, like `SELECT SUM(value) FROM T1`, the parser will find `SUM` and invoke `Item_sum_sum(thd, $3)` constructor. Then the parser goes through each row, and update the result by functions above. But if using `GROUP BY` in the query, the class will call constructor `  Item_sum_sum(THD *thd, Item_sum_sum *item):`. The result will be provided by `Item_sum_field` class.
 
 ### How is the value stored?
-It is still a ambiguous point, I will continue pondering this question.
+I used the class `Regression_result` to store all the results related to regression functions. The main components are below
+
+``` cpp
+class Regression_result
+{
+  // store results
+  Stddev sxx, syy;
+  double sxy;
+  double sx, sy;
+  ulonglong N;
+public:
+  // iterate over the results
+  void recurrence_next(double nr_y, double nr_x);
+  // for window function
+  void remove(double nr_y, double nr_x);
+};
+```
 
 ### How could we iterate the value instead of calculating at the end of the process?
-The difficult point is to calculate `sxy`, `syy` and `sxx`. Because they are equivalent to variance and covariance, I adopted [Welford's online algorithm](https://www.wikiwand.com/en/Algorithms_for_calculating_variance#/Online) to calculate them.
-
+The difficult point is to calculate `sxy`, `syy` and `sxx`. Because they are equivalent to variance and covariance, I adopted [Welford's online algorithm](https://www.wikiwand.com/en/Algorithms_for_calculating_variance#/Online) to calculate them. I defined `recurrence_next` to implement it.
 ```cpp
-void Regr_transition::recurrence_next(double nr_y, double nr_x)
+void Regression_result::recurrence_next(double nr_y, double nr_x)
 {
-  if (!N++)
+  if (N++)
   {
-    m_x = nr_x;
-    m_y = nr_y;
-    sx = nr_x;
-    sy = nr_y;
+    sx+= nr_x;
+    sy+= nr_y;
+    double diff = nr_x - sxx.get_m();
+    sxx.recurrence_next(nr_x);
+    syy.recurrence_next(nr_y);
+    sxy= sxy + diff * (nr_y - syy.get_m());
   }
   else
   {
-    sx += nr_x;
-    sy += nr_y;
-    volatile double diff_x= nr_x - m_x;
-    volatile double diff_y= nr_y - m_y;
-    m_x= m_x + diff_x / (double) N;
-    m_y= m_y + diff_y / (double) N;
-    sxx= sxx + diff_x * (nr_x - m_x);
-    syy= syy + diff_y * (nr_y - m_y);
-    sxy= sxy + diff_x * (nr_y - m_y);
+    sx= nr_x;
+    sy= nr_y;
+    sxx.recurrence_next(nr_x);
+    syy.recurrence_next(nr_y);
+  }
+}
+```
+In this way, the result can be calculated iteratively.
+
+On the other hand, if we only want to efficiently calculate the result in window function , like
+```SQL
+REGR_AVGX(age, weight) OVER(ORDER BY id rows between 2 preceding and 2 following) as avgx
+```
+the result need to remove the first one in order to calculate the next. The implementation is similar to the recurrence_next
+``` cpp
+void Regression_result::remove(double nr_y, double nr_x)
+{
+  if (N > 0)
+  {
+    sx-= nr_x;
+    sy-= nr_y;
+    sxx.remove(nr_x);
+    double diff = nr_x - sxx.get_m();
+    sxy= sxy - diff * (nr_y - syy.get_m());
+    syy.remove(nr_y);
+    N--;
   }
 }
 ```
 
-
-
 ## What should I do next step?
 - Figure out memory management in aggregate functions
-- Complete all functions without `GROUP BY` and test them
+- Complete all functions with and without `GROUP BY`.
