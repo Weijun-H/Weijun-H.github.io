@@ -6,7 +6,7 @@ Hi there, my name is Weijun Huang. I am a master student at [Technical Universit
 
 Life is like a circle. When I was a freshman, I thought my interest was design, and I had to work hard to switch from computer science to urban design. How could I have imagined at that time that I would continue to study computer science now? :-)
 
-Now, I am interested in database systems and system programming. Also, I am a participant in [Google Summer of Code](https://summerofcode.withgoogle.com/) with [MariaDB](https://github.com/MariaDB/) in 2022. It is a good opportunity to become part of the open-source community and extend my knowledge of programming.
+Now, I am interested in database systems and system programming. Also, I was a participant in [Google Summer of Code](https://summerofcode.withgoogle.com/) with [MariaDB](https://github.com/MariaDB/) and [Alibaba Summer of Code](https://asoc2022.opensource.alibaba.com/) at [PolarDB for PG](https://github.com/ApsaraDB/PolarDB-for-PostgreSQL/) in 2022. It is a good opportunity to become part of the open-source community and extend my knowledge of programming.
 
 
-For more information about me, [get in touch](huangweijun1001@gmail.com)!
+For more information about me, [get in touch](mailto:huangweijun1001@gmail.com)!
